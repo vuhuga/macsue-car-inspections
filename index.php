@@ -1,0 +1,92 @@
+<?php
+require_once 'includes/config.php';
+require_once 'includes/header.php';
+
+$pageTitle = "Home";
+?>
+
+<div class="hero-section">
+    <div class="hero-content text-center text-white">
+        <h1 class="display-4">Trusted Second-Hand Car Inspections</h1>
+        <p class="lead">Get a comprehensive inspection before you buy your next used car</p>
+        <a href="book.php" class="btn btn-primary btn-lg">Book an Inspection</a>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-car fa-3x mb-3 text-primary"></i>
+                <h3>Body Inspection</h3>
+                <p>Thorough examination of the car's exterior and interior condition.</p>
+                <a href="services.php#body" class="btn btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-cogs fa-3x mb-3 text-primary"></i>
+                <h3>Mechanical Inspection</h3>
+                <p>Detailed check of engine, transmission, and other mechanical components.</p>
+                <a href="services.php#mechanical" class="btn btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-check-circle fa-3x mb-3 text-primary"></i>
+                <h3>Full Inspection</h3>
+                <p>Complete package including both body and mechanical inspections.</p>
+                <a href="services.php#full" class="btn btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h2>Why Choose Macsue?</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Certified inspectors</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Detailed reports</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Competitive pricing</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Quick turnaround</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Honest assessments</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3>Quick Price Check</h3>
+                <form id="priceCalculator">
+                    <div class="mb-3">
+                        <label for="carType" class="form-label">Car Type</label>
+                        <select class="form-select" id="carType" required>
+                            <option value="">Select...</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="truck">Truck</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inspectionType" class="form-label">Inspection Type</label>
+                        <select class="form-select" id="inspectionType" required>
+                            <option value="">Select...</option>
+                            <option value="body">Body Inspection</option>
+                            <option value="mechanical">Mechanical Inspection</option>
+                            <option value="full">Full Inspection</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Check Price</button>
+                    <div id="priceResult" class="mt-3 fw-bold fs-4 text-primary"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php require_once 'includes/footer.php'; ?>

@@ -1,0 +1,102 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Welcome, {{ currentUser?.fullName }}!</h2>
+        <a routerLink="/booking" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Book New Inspection
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">Your Inspection Requests</h3>
+        </div>
+        <div class="card-body">
+          <div *ngIf="isLoading" class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div *ngIf="!isLoading && inspections.length === 0" class="text-center py-4">
+            <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+            <h4>No inspections yet</h4>
+            <p class="text-muted">Book your first inspection to get started!</p>
+            <a routerLink="/booking" class="btn btn-primary">Book Inspection</a>
+          </div>
+
+          <div *ngIf="!isLoading && inspections.length > 0" class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Car</th>
+                  <th>Inspection Type</th>
+                  <th>Appointment</th>
+                  <th>Status</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let inspection of inspections">
+                  <td>
+                    <strong>{{ inspection.carYear }} {{ inspection.carMake }} {{ inspection.carModel }}</strong>
+                    <br>
+                    <small class="text-muted">{{ inspection.carType | titlecase }}</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary">{{ inspection.inspectionType | titlecase }}</span>
+                  </td>
+                  <td>
+                    {{ inspection.appointmentDate | date:'mediumDate' }}
+                    <br>
+                    <small>{{ inspection.appointmentTime }}</small>
+                  </td>
+                  <td>
+                    <span class="badge" [class]="getStatusBadgeClass(inspection.status)">
+                      {{ inspection.status | titlecase }}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="inspection.notes">{{ inspection.notes }}</span>
+                    <span *ngIf="!inspection.notes" class="text-muted">-</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="fas fa-calendar-check fa-2x text-primary mb-3"></i>
+              <h5>Total Inspections</h5>
+              <h3 class="text-primary">{{ inspections.length }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="fas fa-clock fa-2x text-warning mb-3"></i>
+              <h5>Pending</h5>
+              <h3 class="text-warning">{{ (inspections | filter:'status':'pending').length }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="fas fa-check-circle fa-2x text-success mb-3"></i>
+              <h5>Completed</h5>
+              <h3 class="text-success">{{ (inspections | filter:'status':'completed').length }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

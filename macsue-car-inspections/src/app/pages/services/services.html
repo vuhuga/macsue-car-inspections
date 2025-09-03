@@ -1,0 +1,151 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center mb-5">Our Inspection Services</h1>
+      
+      <div class="row">
+        <div class="col-md-4 mb-4" id="body">
+          <div class="card h-100">
+            <div class="card-header bg-primary text-white text-center">
+              <i class="fas fa-car fa-2x mb-2"></i>
+              <h3>Body Inspection</h3>
+            </div>
+            <div class="card-body">
+              <p>Comprehensive examination of your vehicle's exterior and interior condition.</p>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i> Paint condition assessment</li>
+                <li><i class="fas fa-check text-success me-2"></i> Rust and corrosion check</li>
+                <li><i class="fas fa-check text-success me-2"></i> Interior wear evaluation</li>
+                <li><i class="fas fa-check text-success me-2"></i> Glass and mirror inspection</li>
+                <li><i class="fas fa-check text-success me-2"></i> Tire condition review</li>
+              </ul>
+              <div class="pricing-table mt-3">
+                <h5>Pricing:</h5>
+                <div *ngFor="let price of getPricesByType('body')" class="d-flex justify-content-between">
+                  <span>{{ price.carType | titlecase }}:</span>
+                  <strong>${{ price.price.toFixed(2) }}</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-center">
+              <a routerLink="/booking" class="btn btn-primary">Book Body Inspection</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4" id="mechanical">
+          <div class="card h-100">
+            <div class="card-header bg-success text-white text-center">
+              <i class="fas fa-cogs fa-2x mb-2"></i>
+              <h3>Mechanical Inspection</h3>
+            </div>
+            <div class="card-body">
+              <p>Thorough evaluation of your vehicle's mechanical systems and components.</p>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i> Engine performance test</li>
+                <li><i class="fas fa-check text-success me-2"></i> Transmission inspection</li>
+                <li><i class="fas fa-check text-success me-2"></i> Brake system check</li>
+                <li><i class="fas fa-check text-success me-2"></i> Suspension evaluation</li>
+                <li><i class="fas fa-check text-success me-2"></i> Electrical system test</li>
+              </ul>
+              <div class="pricing-table mt-3">
+                <h5>Pricing:</h5>
+                <div *ngFor="let price of getPricesByType('mechanical')" class="d-flex justify-content-between">
+                  <span>{{ price.carType | titlecase }}:</span>
+                  <strong>${{ price.price.toFixed(2) }}</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-center">
+              <a routerLink="/booking" class="btn btn-success">Book Mechanical Inspection</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4" id="full">
+          <div class="card h-100 border-warning">
+            <div class="card-header bg-warning text-dark text-center">
+              <i class="fas fa-check-circle fa-2x mb-2"></i>
+              <h3>Full Inspection</h3>
+              <span class="badge bg-danger">Most Popular</span>
+            </div>
+            <div class="card-body">
+              <p>Complete comprehensive inspection combining both body and mechanical evaluations.</p>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i> All body inspection items</li>
+                <li><i class="fas fa-check text-success me-2"></i> All mechanical inspection items</li>
+                <li><i class="fas fa-check text-success me-2"></i> Detailed photo documentation</li>
+                <li><i class="fas fa-check text-success me-2"></i> Comprehensive written report</li>
+                <li><i class="fas fa-check text-success me-2"></i> Follow-up consultation</li>
+              </ul>
+              <div class="pricing-table mt-3">
+                <h5>Pricing:</h5>
+                <div *ngFor="let price of getPricesByType('full')" class="d-flex justify-content-between">
+                  <span>{{ price.carType | titlecase }}:</span>
+                  <strong>${{ price.price.toFixed(2) }}</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-center">
+              <a routerLink="/booking" class="btn btn-warning text-dark">Book Full Inspection</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header bg-info text-white">
+              <h3 class="mb-0">Why Choose Our Inspection Services?</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <i class="fas fa-certificate text-primary me-2"></i>
+                      <strong>Certified Inspectors:</strong> All our inspectors are ASE certified with years of experience.
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-clock text-primary me-2"></i>
+                      <strong>Quick Turnaround:</strong> Most inspections completed within 1-2 hours.
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-file-alt text-primary me-2"></i>
+                      <strong>Detailed Reports:</strong> Comprehensive written reports with photos and recommendations.
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <i class="fas fa-dollar-sign text-primary me-2"></i>
+                      <strong>Competitive Pricing:</strong> Fair and transparent pricing with no hidden fees.
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-handshake text-primary me-2"></i>
+                      <strong>Honest Assessments:</strong> Unbiased evaluations to help you make informed decisions.
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fas fa-phone text-primary me-2"></i>
+                      <strong>Follow-up Support:</strong> Free consultation after inspection to answer your questions.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12 text-center">
+          <h3>Ready to Get Started?</h3>
+          <p class="lead">Book your inspection today and drive with confidence!</p>
+          <a routerLink="/booking" class="btn btn-primary btn-lg">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

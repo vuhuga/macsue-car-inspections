@@ -1,0 +1,166 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Book Your Inspection</h3>
+        </div>
+        <div class="card-body">
+          <div *ngIf="success" class="alert alert-success">
+            <h4>Inspection Booked Successfully!</h4>
+            <p>Your inspection has been scheduled. We've sent a confirmation to your email.</p>
+            <a routerLink="/dashboard" class="btn btn-primary">View Your Appointments</a>
+          </div>
+
+          <div *ngIf="!success">
+            <div *ngIf="errors.length > 0" class="alert alert-danger">
+              <p *ngFor="let error of errors">{{ error }}</p>
+            </div>
+
+            <form (ngSubmit)="onSubmit()" #bookingForm="ngForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="carMake" class="form-label">Car Make</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="carMake" 
+                    name="carMake" 
+                    [(ngModel)]="bookingData.carMake"
+                    placeholder="e.g., Toyota, Honda, Ford"
+                    required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="carModel" class="form-label">Car Model</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="carModel" 
+                    name="carModel" 
+                    [(ngModel)]="bookingData.carModel"
+                    placeholder="e.g., Camry, Civic, F-150"
+                    required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="carYear" class="form-label">Year</label>
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="carYear" 
+                    name="carYear" 
+                    [(ngModel)]="bookingData.carYear"
+                    [min]="1900" 
+                    [max]="currentYear + 1"
+                    required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="carType" class="form-label">Car Type</label>
+                  <select 
+                    class="form-select" 
+                    id="carType" 
+                    name="carType" 
+                    [(ngModel)]="bookingData.carType"
+                    (change)="updatePrice()"
+                    required>
+                    <option value="sedan">Sedan</option>
+                    <option value="suv">SUV</option>
+                    <option value="truck">Truck</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="inspectionType" class="form-label">Inspection Type</label>
+                <select 
+                  class="form-select" 
+                  id="inspectionType" 
+                  name="inspectionType" 
+                  [(ngModel)]="bookingData.inspectionType"
+                  (change)="updatePrice()"
+                  required>
+                  <option value="body">Body Inspection</option>
+                  <option value="mechanical">Mechanical Inspection</option>
+                  <option value="full">Full Inspection</option>
+                </select>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="appointmentDate" class="form-label">Appointment Date</label>
+                  <input 
+                    type="date" 
+                    class="form-control" 
+                    id="appointmentDate" 
+                    name="appointmentDate" 
+                    [(ngModel)]="bookingData.appointmentDate"
+                    [min]="minDate"
+                    required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="appointmentTime" class="form-label">Appointment Time</label>
+                  <select 
+                    class="form-select" 
+                    id="appointmentTime" 
+                    name="appointmentTime" 
+                    [(ngModel)]="bookingData.appointmentTime"
+                    required>
+                    <option value="">Select time...</option>
+                    <option *ngFor="let time of timeSlots" [value]="time">
+                      {{ formatTimeSlot(time) }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="notes" class="form-label">Special Notes (Optional)</label>
+                <textarea 
+                  class="form-control" 
+                  id="notes" 
+                  name="notes" 
+                  [(ngModel)]="bookingData.notes"
+                  rows="3"
+                  placeholder="Any specific concerns or requests..."></textarea>
+              </div>
+              <button 
+                type="submit" 
+                class="btn btn-primary" 
+                [disabled]="isLoading || !bookingForm.valid">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isLoading ? 'Booking...' : 'Book Inspection' }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+          <h4 class="mb-0">Pricing Information</h4>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <h4>Estimated Cost: <span class="text-primary">${{ estimatedPrice.toFixed(2) }}</span></h4>
+            <small class="text-muted">Final price may vary based on vehicle specifics</small>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header bg-info text-white">
+          <h4 class="mb-0">What to Expect</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-clock me-2"></i> 1-2 hour inspection</li>
+            <li class="list-group-item"><i class="fas fa-file-alt me-2"></i> Detailed report</li>
+            <li class="list-group-item"><i class="fas fa-images me-2"></i> Photos of any issues</li>
+            <li class="list-group-item"><i class="fas fa-phone me-2"></i> Follow-up consultation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
