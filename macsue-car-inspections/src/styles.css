@@ -12,11 +12,12 @@ html, body {
 
 /* Custom styles */
 .hero-section {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   padding: 120px 0;
   color: white;
+  min-height: 500px;
 }
 
 .card {

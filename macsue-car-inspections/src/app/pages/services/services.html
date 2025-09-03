@@ -23,7 +23,7 @@
                 <h5>Pricing:</h5>
                 <div *ngFor="let price of getPricesByType('body')" class="d-flex justify-content-between">
                   <span>{{ price.carType | titlecase }}:</span>
-                  <strong>${{ price.price.toFixed(2) }}</strong>
+                  <strong>KSh {{ price.price.toLocaleString() }}</strong>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
                 <h5>Pricing:</h5>
                 <div *ngFor="let price of getPricesByType('mechanical')" class="d-flex justify-content-between">
                   <span>{{ price.carType | titlecase }}:</span>
-                  <strong>${{ price.price.toFixed(2) }}</strong>
+                  <strong>KSh {{ price.price.toLocaleString() }}</strong>
                 </div>
               </div>
             </div>
@@ -82,7 +82,7 @@
                 <h5>Pricing:</h5>
                 <div *ngFor="let price of getPricesByType('full')" class="d-flex justify-content-between">
                   <span>{{ price.carType | titlecase }}:</span>
-                  <strong>${{ price.price.toFixed(2) }}</strong>
+                  <strong>KSh {{ price.price.toLocaleString() }}</strong>
                 </div>
               </div>
             </div>

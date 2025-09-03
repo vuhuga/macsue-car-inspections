@@ -1,0 +1,17 @@
+.navbar-brand img {
+  max-height: 40px;
+  width: auto;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  text-decoration: none;
+}
+
+.navbar-brand span {
+  color: white !important;
+}

@@ -81,6 +81,11 @@ export class Booking implements OnInit {
       const currentUser = this.authService.getCurrentUser();
       if (currentUser) {
         this.bookingData.userId = currentUser.id;
+        this.bookingData.user = {
+          id: currentUser.id!,
+          fullName: currentUser.fullName,
+          email: currentUser.email
+        };
         
         this.inspectionService.bookInspection(this.bookingData).subscribe(result => {
           this.isLoading = false;

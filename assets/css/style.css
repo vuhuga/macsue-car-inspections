@@ -79,7 +79,7 @@ nav ul li a:hover::after {
 
 .hero {
     position: relative;
-    background: url('../images/hero-bg.jpg') no-repeat center center fixed;
+    background: url('../images/inspection1.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
     text-align: center;

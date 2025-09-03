@@ -71,13 +71,13 @@ INSERT IGNORE INTO pricing (car_type, inspection_type, price) VALUES
 ('other', 'mechanical', 109.99),
 ('other', 'full', 179.99);
 
--- Create default admin user (password: admin123)
+-- Create default admin user (username: admin, password: admin123)
 INSERT IGNORE INTO users (username, email, password, full_name, phone, is_admin) 
-VALUES ('admin', 'admin@macsue.com', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/RK.s5uO8G', 'Admin User', '123-456-7890', true);
+VALUES ('admin', 'admin@macsue.com', '$2a$12$pxw1f8zx4kLx2JiNVtBHb.FS4CXxxrHgit/mncAFJbr8mEp/uWJNK', 'Admin User', '123-456-7890', true);
 
--- Create default regular user (password: password123)
+-- Create default regular user (username: user, password: user123)
 INSERT IGNORE INTO users (username, email, password, full_name, phone, is_admin) 
-VALUES ('john_doe', 'john@example.com', '$2a$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'John Doe', '555-0123', false);
+VALUES ('user', 'user@macsue.com', '$2a$12$5oxapV6jSXMrB.5vgQAW3uHXF6GjV.KMQnqKlSR4ZSm/Q0C/JPLR6', 'Regular User', '555-0123', false);
 
 -- Insert sample inspection data
 INSERT IGNORE INTO inspections (user_id, car_make, car_model, car_year, car_type, inspection_type, appointment_date, appointment_time, notes, status) 

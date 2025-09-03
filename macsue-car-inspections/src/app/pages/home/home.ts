@@ -15,12 +15,13 @@ export class Home {
   inspectionType = '';
   priceResult = '';
 
+
   constructor(private inspectionService: InspectionService) {}
 
   calculatePrice() {
     if (this.carType && this.inspectionType) {
       const price = this.inspectionService.getPrice(this.carType, this.inspectionType);
-      this.priceResult = `$${price.toFixed(2)}`;
+      this.priceResult = `KSh ${price.toLocaleString()}`;
     } else {
       this.priceResult = '';
     }

@@ -1,0 +1,103 @@
+<svg width="1200" height="600" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#007bff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0056b3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Car silhouette -->
+  <g transform="translate(200, 200)">
+    <!-- Car body -->
+    <path d="M50 150 L150 150 L180 120 L220 120 L250 100 L350 100 L380 120 L420 120 L450 150 L550 150 L550 180 L500 200 L450 200 L450 220 L400 220 L400 200 L200 200 L200 220 L150 220 L150 200 L100 200 L50 180 Z" 
+          fill="url(#carGradient)" stroke="#003d82" stroke-width="2"/>
+    
+    <!-- Car windows -->
+    <path d="M180 120 L220 120 L240 100 L330 100 L350 120 L380 120 L360 140 L240 140 Z" 
+          fill="#87ceeb" stroke="#4682b4" stroke-width="1"/>
+    
+    <!-- Car wheels -->
+    <circle cx="150" cy="200" r="25" fill="#2c3e50" stroke="#34495e" stroke-width="2"/>
+    <circle cx="150" cy="200" r="15" fill="#95a5a6"/>
+    <circle cx="450" cy="200" r="25" fill="#2c3e50" stroke="#34495e" stroke-width="2"/>
+    <circle cx="450" cy="200" r="15" fill="#95a5a6"/>
+    
+    <!-- Car headlights -->
+    <circle cx="520" cy="165" r="8" fill="#fff3cd" stroke="#ffc107" stroke-width="1"/>
+    <circle cx="80" cy="165" r="8" fill="#f8d7da" stroke="#dc3545" stroke-width="1"/>
+  </g>
+  
+  <!-- Inspector figure -->
+  <g transform="translate(700, 250)">
+    <!-- Head -->
+    <circle cx="0" cy="0" r="20" fill="#fdbcb4" stroke="#e17055" stroke-width="1"/>
+    <!-- Body -->
+    <rect x="-15" y="20" width="30" height="50" fill="#007bff" stroke="#0056b3" stroke-width="1"/>
+    <!-- Arms -->
+    <rect x="-25" y="25" width="10" height="30" fill="#fdbcb4" stroke="#e17055" stroke-width="1"/>
+    <rect x="15" y="25" width="10" height="30" fill="#fdbcb4" stroke="#e17055" stroke-width="1"/>
+    <!-- Legs -->
+    <rect x="-10" y="70" width="8" height="40" fill="#2c3e50" stroke="#34495e" stroke-width="1"/>
+    <rect x="2" y="70" width="8" height="40" fill="#2c3e50" stroke="#34495e" stroke-width="1"/>
+    
+    <!-- Clipboard -->
+    <rect x="25" y="20" width="15" height="20" fill="#fff" stroke="#333" stroke-width="1"/>
+    <line x1="27" y1="25" x2="38" y2="25" stroke="#333" stroke-width="1"/>
+    <line x1="27" y1="30" x2="38" y2="30" stroke="#333" stroke-width="1"/>
+    <line x1="27" y1="35" x2="38" y2="35" stroke="#333" stroke-width="1"/>
+  </g>
+  
+  <!-- Inspection tools -->
+  <g transform="translate(800, 350)">
+    <!-- Wrench -->
+    <path d="M0 0 L20 0 L25 5 L25 15 L20 20 L0 20 L0 15 L5 10 L0 5 Z" 
+          fill="#6c757d" stroke="#495057" stroke-width="1"/>
+    
+    <!-- Flashlight -->
+    <rect x="30" y="5" width="25" height="10" fill="#ffc107" stroke="#e0a800" stroke-width="1"/>
+    <circle cx="57" cy="10" r="3" fill="#fff3cd"/>
+    
+    <!-- Gauge -->
+    <circle cx="70" cy="10" r="8" fill="#28a745" stroke="#1e7e34" stroke-width="1"/>
+    <line x1="70" y1="10" x2="75" y2="5" stroke="#fff" stroke-width="2"/>
+  </g>
+  
+  <!-- Checkmarks indicating inspection points -->
+  <g fill="#28a745" stroke="#1e7e34" stroke-width="2">
+    <!-- Engine check -->
+    <g transform="translate(300, 280)">
+      <circle cx="0" cy="0" r="12" fill="#d4edda" stroke="#28a745"/>
+      <path d="M-6 0 L-2 4 L6 -4" fill="none" stroke="#28a745" stroke-width="2"/>
+    </g>
+    
+    <!-- Tire check -->
+    <g transform="translate(350, 380)">
+      <circle cx="0" cy="0" r="12" fill="#d4edda" stroke="#28a745"/>
+      <path d="M-6 0 L-2 4 L6 -4" fill="none" stroke="#28a745" stroke-width="2"/>
+    </g>
+    
+    <!-- Body check -->
+    <g transform="translate(500, 300)">
+      <circle cx="0" cy="0" r="12" fill="#d4edda" stroke="#28a745"/>
+      <path d="M-6 0 L-2 4 L6 -4" fill="none" stroke="#28a745" stroke-width="2"/>
+    </g>
+  </g>
+  
+  <!-- Title text -->
+  <text x="600" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#007bff">
+    Professional Car Inspection
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#6c757d">
+    Thorough • Reliable • Certified
+  </text>
+</svg>

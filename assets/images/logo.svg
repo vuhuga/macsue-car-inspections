@@ -1,0 +1,32 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="30" cy="30" r="25" fill="#007bff" stroke="#0056b3" stroke-width="2"/>
+  
+  <!-- Car icon -->
+  <g transform="translate(15, 20)">
+    <!-- Car body -->
+    <rect x="2" y="8" width="26" height="8" rx="2" fill="white"/>
+    <!-- Car windows -->
+    <rect x="6" y="4" width="6" height="6" rx="1" fill="white"/>
+    <rect x="18" y="4" width="6" height="6" rx="1" fill="white"/>
+    <!-- Wheels -->
+    <circle cx="8" cy="18" r="3" fill="white"/>
+    <circle cx="22" cy="18" r="3" fill="white"/>
+    <!-- Wheel centers -->
+    <circle cx="8" cy="18" r="1.5" fill="#007bff"/>
+    <circle cx="22" cy="18" r="1.5" fill="#007bff"/>
+    <!-- Checkmark overlay -->
+    <path d="M12 12 L16 16 L24 8" stroke="#28a745" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Company text -->
+  <text x="65" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">
+    MACSUE
+  </text>
+  <text x="65" y="40" font-family="Arial, sans-serif" font-size="12" fill="#666">
+    Car Inspections
+  </text>
+  
+  <!-- Decorative elements -->
+  <rect x="65" y="45" width="80" height="2" fill="#007bff" rx="1"/>
+</svg>

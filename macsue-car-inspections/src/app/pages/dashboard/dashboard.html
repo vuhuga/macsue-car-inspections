@@ -1,16 +1,35 @@
+<app-notification 
+  [message]="notificationMessage"
+  [type]="notificationType"
+  [show]="showNotification"
+  (closed)="hideNotification()">
+</app-notification>
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Welcome, {{ currentUser?.fullName }}!</h2>
-        <a routerLink="/booking" class="btn btn-primary">
-          <i class="fas fa-plus"></i> Book New Inspection
-        </a>
+        <div>
+          <h2>Welcome, {{ currentUser?.fullName }}!</h2>
+          <span *ngIf="isAdmin()" class="badge bg-danger">Admin Dashboard</span>
+          <span *ngIf="!isAdmin()" class="badge bg-primary">User Dashboard</span>
+        </div>
+        <div>
+          <button *ngIf="isAdmin()" (click)="manualRefresh()" class="btn btn-outline-secondary me-2" [disabled]="isLoading">
+            <i class="fas fa-sync-alt" [class.fa-spin]="isLoading"></i> Refresh
+          </button>
+          <a *ngIf="!isAdmin()" routerLink="/booking" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Book New Inspection
+          </a>
+        </div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <h3 class="mb-0">Your Inspection Requests</h3>
+          <h3 class="mb-0">
+            <span *ngIf="isAdmin()">All Inspection Requests</span>
+            <span *ngIf="!isAdmin()">Your Inspection Requests</span>
+          </h3>
         </div>
         <div class="card-body">
           <div *ngIf="isLoading" class="text-center">
@@ -30,15 +49,24 @@
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <th *ngIf="isAdmin()">Customer</th>
                   <th>Car</th>
                   <th>Inspection Type</th>
                   <th>Appointment</th>
                   <th>Status</th>
                   <th>Notes</th>
+                  <th *ngIf="!isAdmin()">Admin Notes</th>
+                  <th>Last Updated</th>
+                  <th *ngIf="isAdmin()">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let inspection of inspections">
+                  <td *ngIf="isAdmin()">
+                    <strong>{{ inspection.user?.fullName || 'Unknown' }}</strong>
+                    <br>
+                    <small class="text-muted">{{ inspection.user?.email || 'N/A' }}</small>
+                  </td>
                   <td>
                     <strong>{{ inspection.carYear }} {{ inspection.carMake }} {{ inspection.carModel }}</strong>
                     <br>
@@ -61,6 +89,49 @@
                     <span *ngIf="inspection.notes">{{ inspection.notes }}</span>
                     <span *ngIf="!inspection.notes" class="text-muted">-</span>
                   </td>
+                  <td *ngIf="!isAdmin()">
+                    <span *ngIf="inspection.adminNotes" class="text-info">{{ inspection.adminNotes }}</span>
+                    <span *ngIf="!inspection.adminNotes" class="text-muted">-</span>
+                  </td>
+                  <td>
+                    <small class="text-muted">
+                      {{ inspection.updatedAt ? (inspection.updatedAt | date:'short') : (inspection.createdAt | date:'short') }}
+                    </small>
+                  </td>
+                  <td *ngIf="isAdmin()">
+                    <div class="btn-group btn-group-sm">
+                      <button 
+                        *ngIf="canAcceptOrReject(inspection)"
+                        class="btn btn-success" 
+                        title="Accept Request"
+                        (click)="openActionModal(inspection, 'accept')">
+                        <i class="fas fa-check"></i>
+                      </button>
+                      <button 
+                        *ngIf="canAcceptOrReject(inspection)"
+                        class="btn btn-danger" 
+                        title="Reject Request"
+                        (click)="openActionModal(inspection, 'reject')">
+                        <i class="fas fa-times"></i>
+                      </button>
+                      <button 
+                        *ngIf="canEdit(inspection)"
+                        class="btn btn-warning" 
+                        title="Edit Decision"
+                        (click)="openEditModal(inspection)">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button 
+                        class="btn btn-primary" 
+                        title="Send Message"
+                        (click)="openMessageModal(inspection)">
+                        <i class="fas fa-envelope"></i>
+                      </button>
+                      <button class="btn btn-outline-info" title="View Details">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -78,7 +149,25 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="isAdmin()">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="fas fa-clock fa-2x text-warning mb-3"></i>
+              <h5>Pending</h5>
+              <h3 class="text-warning">{{ (inspections | filter:'status':'pending').length }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="isAdmin()">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="fas fa-check fa-2x text-success mb-3"></i>
+              <h5>Accepted</h5>
+              <h3 class="text-success">{{ (inspections | filter:'status':'accepted').length }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="!isAdmin()">
           <div class="card text-center">
             <div class="card-body">
               <i class="fas fa-clock fa-2x text-warning mb-3"></i>
@@ -100,3 +189,138 @@
     </div>
   </div>
 </div>
+
+<!-- Admin Action Modal -->
+<div class="modal fade" [class.show]="showActionModal" [style.display]="showActionModal ? 'block' : 'none'" *ngIf="showActionModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ actionType === 'accept' ? 'Accept' : 'Reject' }} Inspection Request
+        </h5>
+        <button type="button" class="btn-close" (click)="closeActionModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedInspection">
+          <p><strong>Customer:</strong> {{ selectedInspection.user?.fullName }}</p>
+          <p><strong>Car:</strong> {{ selectedInspection.carYear }} {{ selectedInspection.carMake }} {{ selectedInspection.carModel }}</p>
+          <p><strong>Appointment:</strong> {{ selectedInspection.appointmentDate | date:'mediumDate' }} at {{ selectedInspection.appointmentTime }}</p>
+          
+          <div class="mb-3">
+            <label for="adminNotes" class="form-label">Notes (Optional)</label>
+            <textarea 
+              id="adminNotes"
+              class="form-control" 
+              rows="3" 
+              [(ngModel)]="adminNotes"
+              placeholder="Add any notes for the customer...">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeActionModal()">Cancel</button>
+        <button 
+          type="button" 
+          class="btn"
+          [class.btn-success]="actionType === 'accept'"
+          [class.btn-danger]="actionType === 'reject'"
+          (click)="confirmAction()">
+          {{ actionType === 'accept' ? 'Accept' : 'Reject' }} Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Message Modal -->
+<div class="modal fade" [class.show]="showMessageModal" [style.display]="showMessageModal ? 'block' : 'none'" *ngIf="showMessageModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Message to Customer</h5>
+        <button type="button" class="btn-close" (click)="closeMessageModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedInspection">
+          <p><strong>Customer:</strong> {{ selectedInspection.user?.fullName }}</p>
+          <p><strong>Email:</strong> {{ selectedInspection.user?.email }}</p>
+          
+          <div class="mb-3">
+            <label for="adminMessage" class="form-label">Message</label>
+            <textarea 
+              id="adminMessage"
+              class="form-control" 
+              rows="4" 
+              [(ngModel)]="adminMessage"
+              placeholder="Type your message to the customer...">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeMessageModal()">Cancel</button>
+        <button 
+          type="button" 
+          class="btn btn-primary"
+          [disabled]="!adminMessage.trim()"
+          (click)="sendMessage()">
+          Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Decision Modal -->
+<div class="modal fade" [class.show]="showEditModal" [style.display]="showEditModal ? 'block' : 'none'" *ngIf="showEditModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Inspection Decision</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="editingInspection">
+          <p><strong>Customer:</strong> {{ editingInspection.user?.fullName }}</p>
+          <p><strong>Car:</strong> {{ editingInspection.carYear }} {{ editingInspection.carMake }} {{ editingInspection.carModel }}</p>
+          <p><strong>Current Status:</strong> 
+            <span class="badge" [class]="getStatusBadgeClass(editingInspection.status)">
+              {{ editingInspection.status | titlecase }}
+            </span>
+          </p>
+          
+          <div class="mb-3">
+            <label for="editStatus" class="form-label">Change Status</label>
+            <select id="editStatus" class="form-select" [(ngModel)]="editingInspection.status">
+              <option value="accepted">Accept</option>
+              <option value="rejected">Reject</option>
+              <option value="scheduled">Schedule</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Complete</option>
+              <option value="cancelled">Cancel</option>
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label for="editAdminNotes" class="form-label">Admin Notes</label>
+            <textarea 
+              id="editAdminNotes"
+              class="form-control" 
+              rows="3" 
+              [(ngModel)]="adminNotes"
+              placeholder="Update notes for the customer...">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveEdit()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop fade show" *ngIf="showActionModal || showMessageModal || showEditModal"></div>

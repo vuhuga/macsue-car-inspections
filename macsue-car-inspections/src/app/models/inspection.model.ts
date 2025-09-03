@@ -8,8 +8,14 @@ export interface Inspection {
   appointmentDate: string;
   appointmentTime: string;
   notes?: string;
-  status: 'pending' | 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
+  status: 'pending' | 'accepted' | 'rejected' | 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
   userId?: number;
+  user?: {
+    id: number;
+    fullName: string;
+    email: string;
+  };
+  adminNotes?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -26,4 +32,12 @@ export interface ContactMessage {
   phone?: string;
   subject: string;
   message: string;
+}
+
+export interface AdminMessage {
+  id?: number;
+  inspectionId: number;
+  message: string;
+  sentAt: string;
+  sentBy: number;
 }
